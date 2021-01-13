@@ -12,110 +12,113 @@
 /* jshint camelcase: false */
 /* global android, NSString, nsPlatform */
 
-const Page = require('tns-core-modules/ui/page').Page;
-require('nativescript-globalevents');
-require('nativescript-platform');
+const Page = require("@nativescript/core/ui/page").Page;
+require("nativescript-globalevents");
+require("nativescript-platform");
 
 /**
  * Function that adds the proper class when we navigate to a new page
  * @param args
  */
-let deviceInfo, sizeGroupings = false;
-let groupings = [1280,1024,800,600,540,480,400,360,320];
+let deviceInfo,
+  sizeGroupings = false;
+let groupings = [1280, 1024, 800, 600, 540, 480, 400, 360, 320];
 
-const setDevice = function(args) {
-    const currentPage = args.object;
+const setDevice = function (args) {
+  const currentPage = args.object;
 
-    let device;
-    if (!deviceInfo) {
-        switch (nsPlatform.platform) {
-            case nsPlatform.type.IOS:
-                device = 'ios ios';
-                break;
+  let device;
+  if (!deviceInfo) {
+    switch (nsPlatform.platform) {
+      case nsPlatform.type.IOS:
+        device = "ios ios";
+        break;
 
-            case nsPlatform.type.ANDROID:
-                device = 'android android';
-                break;
+      case nsPlatform.type.ANDROID:
+        device = "android android";
+        break;
+    }
+
+    const screen = nsPlatform.screen;
+
+    if (sizeGroupings) {
+      let size = screen.width < screen.height ? screen.width : screen.height;
+      let found = false;
+      for (let i = 0; i < groupings.length; i++) {
+        if (size >= groupings[i]) {
+          device += groupings[i];
+          found = true;
+          break;
         }
-
-        const screen = nsPlatform.screen;
-
-		if (sizeGroupings) {
-			let size = (screen.width < screen.height ? screen.width : screen.height);
-			let found = false;
-			for (let i=0;i<groupings.length;i++) {
-				if (size >= groupings[i]) {
-					device += groupings[i];
-					found = true;
-					break;
-				}
-			}
-			if (!found) {
-				device += size;
-			}
-		} else {
-			if (screen.width < screen.height) {
-				device += screen.width;
-			} else {
-				device += screen.height;
-			}
-		}
-
-		const nsPlatformDevice = nsPlatform.device;
-		const deviceName = nsPlatformDevice.name || '';
-        // Add device name; this is use
-		device += " " + deviceName.replace(/[^a-z0-9]/gmi,'').toLowerCase() + " " + nsPlatform.deviceType.toLowerCase();
-
-		if (nsPlatformDevice.notch) {
-			device += " notch";
-		}
-
-		if (nsPlatformDevice.softNav) {
-			device += " softnav";
-		}
-
-		deviceInfo = device;
+      }
+      if (!found) {
+        device += size;
+      }
     } else {
-        device = deviceInfo;
+      if (screen.width < screen.height) {
+        device += screen.width;
+      } else {
+        device += screen.height;
+      }
     }
 
-    if (currentPage) {
+    const nsPlatformDevice = nsPlatform.device;
+    const deviceName = nsPlatformDevice.name || "";
+    // Add device name; this is use
+    device +=
+      " " +
+      deviceName.replace(/[^a-z0-9]/gim, "").toLowerCase() +
+      " " +
+      nsPlatform.deviceType.toLowerCase();
 
-        const data = currentPage.className || '';
-        if (data.length) {
-            currentPage.className = data + ' ' + device;
-        } else {
-            currentPage.className = device;
-        }
+    if (nsPlatformDevice.notch) {
+      device += " notch";
     }
+
+    if (nsPlatformDevice.softNav) {
+      device += " softnav";
+    }
+
+    deviceInfo = device;
+  } else {
+    device = deviceInfo;
+  }
+
+  if (currentPage) {
+    const data = currentPage.className || "";
+    if (data.length) {
+      currentPage.className = data + " " + device;
+    } else {
+      currentPage.className = device;
+    }
+  }
 };
 
 // Setup Events
 Page.on(Page.navigatingToFirst, setDevice);
 Page.on(Page.showingModallyFirst, setDevice);
 
-exports.sizeGroupings = function(val) {
-	if (Array.isArray(val)) {
-		if (val.length === 0) {
-			sizeGroupings = false;
-		} else {
-			groupings = val.splice(0);
-			groupings.sort(function (x, y) {
-				if (x < y) {
-					return 1;
-				}
-				else if (x > y) {
-					return -1;
-				}
-				return 0;
-			});
-			sizeGroupings = true;
-		}
-	} else {
-		if (sizeGroupings === !!val) {
-			return;
-		}
-		sizeGroupings = !!val;
-	}
-	deviceInfo = null;
+exports.sizeGroupings = function (val) {
+  if (Array.isArray(val)) {
+    if (val.length === 0) {
+      sizeGroupings = false;
+    } else {
+      groupings = val.splice(0);
+      groupings.sort(function (x, y) {
+        if (x < y) {
+          return 1;
+        } else if (x > y) {
+          return -1;
+        }
+        return 0;
+      });
+      sizeGroupings = true;
+    }
+  } else {
+    if (sizeGroupings === !!val) {
+      return;
+    }
+    sizeGroupings = !!val;
+  }
+  deviceInfo = null;
 };

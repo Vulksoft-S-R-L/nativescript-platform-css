@@ -1,5 +1,6 @@
 /.idea
 /demo/node_modules/
 /demo/platforms/
+/src/node_modules/
 *.tar
 *.tgz
