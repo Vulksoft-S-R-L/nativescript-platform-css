@@ -1,5 +1,5 @@
 {
-  "name": "nativescript-platform-css",
+  "name": "@vulksoft/nativescript-platform-css",
   "version": "1.6.10",
   "description": "A NativeScript plugin to deal with Declarative UI and Platform CSS",
   "main": "platformcss",
@@ -24,13 +24,12 @@
     "platform",
     "css",
     "ios",
-    "android",
-    "notch",
-    "softnav"
+    "android"
   ],
   "author": {
-    "name": "Nathanael Anderson",
-    "email": "nathan@master-technology.com"
+    "name": "Antony Rizzitelli",
+    "email": "contact@vulksoft.be",
+    "url": "https://github.com/upd4ting"
   },
   "contributors": [
     {
@@ -49,9 +48,9 @@
       "url": "https://github.com/abhayastudios"
     },
     {
-      "name": "Antony Rizzitelli",
-      "email": "contact@vulksoft.be",
-      "url": "https://github.com/upd4ting"
+      "name": "Nathanael Anderson",
+      "email": "nathan@master-technology.com",
+      "url": "https://github.com/NathanaelA"
     }
   ],
   "license": {
