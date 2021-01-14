@@ -19,10 +19,6 @@
     "type": "git",
     "url": "https://github.com/Vulksoft-S-R-L/nativescript-platform-css.git"
   },
-  "dependencies": {
-    "nativescript-globalevents": "latest",
-    "nativescript-platform": "latest"
-  },
   "keywords": [
     "NativeScript",
     "platform",

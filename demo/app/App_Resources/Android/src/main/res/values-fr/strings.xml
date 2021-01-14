@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="actionbar.title">"Meteor template"</string>
+  <string name="title_activity_kimera">"NativeScript-Vue Application"</string>
+  <string name="app_name">"NativeScript-Vue Application"</string>
+</resources>
