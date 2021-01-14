@@ -1,124 +1,41 @@
-/**********************************************************************************
- * (c) 2016-2019, Master Technology
- * Licensed under the MIT license or contact me for a Support or Commercial License
- *
- * I do contract work in most languages, so let me solve your problems!
- *
- * Any questions please feel free to email me or put a issue up on the github repo
- * Version 1.6.9                                      Nathan@master-technology.com
- *********************************************************************************/
 "use strict";
 
-/* jshint camelcase: false */
-/* global android, NSString, nsPlatform */
-
 const Page = require("@nativescript/core/ui/page").Page;
-require("nativescript-globalevents");
-require("nativescript-platform");
+const Device = require("@nativescript/core/platform").Device;
+const Screen = require("@nativescript/core/platform").Screen;
 
-/**
- * Function that adds the proper class when we navigate to a new page
- * @param args
- */
-let deviceInfo,
-  sizeGroupings = false;
 let groupings = [1280, 1024, 800, 600, 540, 480, 400, 360, 320];
 
-const setDevice = function (args) {
+const getSize = (size) => {
+  return groupings.find((current) => size > current);
+};
+
+const onPageLoad = (args) => {
   const currentPage = args.object;
+  const platform = Device.os.toLowerCase();
+  let classes = [platform];
 
-  let device;
-  if (!deviceInfo) {
-    switch (nsPlatform.platform) {
-      case nsPlatform.type.IOS:
-        device = "ios ios";
-        break;
+  // Add size of screen
+  const size =
+    Screen.mainScreen.widthDIPs < Screen.mainScreen.heightDIPs
+      ? Screen.mainScreen.widthDIPs
+      : Screen.mainScreen.heightDIPS;
+  classes.push(`${platform}${getSize(size)}`);
+  classes.push(`screen${getSize(size)}`);
 
-      case nsPlatform.type.ANDROID:
-        device = "android android";
-        break;
-    }
+  // Add device name
+  const deviceName =
+    Device.manufacturer.toLowerCase().replace(/\s/g, "") +
+    Device.model.toLowerCase().replace(/\s/g, "");
+  classes.push(deviceName);
 
-    const screen = nsPlatform.screen;
-
-    if (sizeGroupings) {
-      let size = screen.width < screen.height ? screen.width : screen.height;
-      let found = false;
-      for (let i = 0; i < groupings.length; i++) {
-        if (size >= groupings[i]) {
-          device += groupings[i];
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        device += size;
-      }
-    } else {
-      if (screen.width < screen.height) {
-        device += screen.width;
-      } else {
-        device += screen.height;
-      }
-    }
-
-    const nsPlatformDevice = nsPlatform.device;
-    const deviceName = nsPlatformDevice.name || "";
-    // Add device name; this is use
-    device +=
-      " " +
-      deviceName.replace(/[^a-z0-9]/gim, "").toLowerCase() +
-      " " +
-      nsPlatform.deviceType.toLowerCase();
-
-    if (nsPlatformDevice.notch) {
-      device += " notch";
-    }
-
-    if (nsPlatformDevice.softNav) {
-      device += " softnav";
-    }
-
-    deviceInfo = device;
-  } else {
-    device = deviceInfo;
-  }
+  console.log(classes);
 
   if (currentPage) {
-    const data = currentPage.className || "";
-    if (data.length) {
-      currentPage.className = data + " " + device;
-    } else {
-      currentPage.className = device;
-    }
+    currentPage.className += " " + classes.join(" ");
   }
 };
 
 // Setup Events
-Page.on(Page.navigatingToFirst, setDevice);
-Page.on(Page.showingModallyFirst, setDevice);
-
-exports.sizeGroupings = function (val) {
-  if (Array.isArray(val)) {
-    if (val.length === 0) {
-      sizeGroupings = false;
-    } else {
-      groupings = val.splice(0);
-      groupings.sort(function (x, y) {
-        if (x < y) {
-          return 1;
-        } else if (x > y) {
-          return -1;
-        }
-        return 0;
-      });
-      sizeGroupings = true;
-    }
-  } else {
-    if (sizeGroupings === !!val) {
-      return;
-    }
-    sizeGroupings = !!val;
-  }
-  deviceInfo = null;
-};
+Page.on(Page.navigatingToEvent, onPageLoad);
+Page.on(Page.showingModallyEvent, onPageLoad);
