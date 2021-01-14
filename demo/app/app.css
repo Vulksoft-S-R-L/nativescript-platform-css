@@ -17,3 +17,15 @@ The imported CSS rules must precede all other types of rules.
   color: white;
   font-size: 12pt;
 }
+
+.android360 Label {
+  color: red;
+}
+
+.android1024 Label {
+  color: blue;
+}
+
+.ios360 Label {
+  color: green;
+}

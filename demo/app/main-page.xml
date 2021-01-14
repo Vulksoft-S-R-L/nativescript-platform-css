@@ -30,6 +30,5 @@ https://docs.nativescript.org/ui/components.
             <Label text="ns-platform-css" class="h1 text-center"/>
             <TextView height="300" text="{{ data }}" editable="false" backgroundColor="#d3d3d3"/>
         </StackLayout>
-        <Label tap="{{ tap }}" row="1" text="(c)2015-2019, Master Technology" class="text-center copyright"/>
     </GridLayout>
 </Page>
