@@ -3,7 +3,7 @@
   "license": "SEE LICENSE IN <your-license-filename>",
   "repository": "<fill-your-repository-here>",
   "scripts": {
-    "start": "ns debug android --bundle --no-hmr"
+    "start": "ns run android --bundle --no-hmr"
   },
   "dependencies": {
     "@nativescript/core": "7.0.0",
