@@ -4,10 +4,10 @@ const Page = require("@nativescript/core/ui/page").Page;
 const Device = require("@nativescript/core/platform").Device;
 const Screen = require("@nativescript/core/platform").Screen;
 
-let groupings = [1280, 1024, 800, 600, 540, 480, 400, 360, 320];
+let groupings = [1280, 1024, 800, 600, 540, 480, 400, 360, 320, 240];
 
 const getSize = (size) => {
-  return groupings.find((current) => size > current);
+  return groupings.find((current) => size >= current);
 };
 
 const onPageLoad = (args) => {
