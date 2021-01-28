@@ -39,3 +39,5 @@ const onPageLoad = (args) => {
 // Setup Events
 Page.on(Page.navigatingToEvent, onPageLoad);
 Page.on(Page.showingModallyEvent, onPageLoad);
+
+module.exports = onPageLoad;
