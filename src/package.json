@@ -1,6 +1,6 @@
 {
   "name": "@vulksoft/nativescript-platform-css",
-  "version": "1.6.13",
+  "version": "1.6.14",
   "description": "A NativeScript plugin to deal with Declarative UI and Platform CSS",
   "main": "platformcss",
   "nativescript": {

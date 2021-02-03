@@ -34,6 +34,8 @@ const onPageLoad = (args) => {
   if (currentPage) {
     currentPage.className += " " + classes.join(" ");
   }
+
+  global.platformClass = classes;
 };
 
 // Setup Events
