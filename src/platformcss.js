@@ -9,9 +9,7 @@ let groupings = [1280, 1024, 800, 600, 540, 480, 400, 360, 320, 240];
 const getSize = (size) => {
   return groupings.find((current) => size >= current);
 };
-
-const onPageLoad = (args) => {
-  const currentPage = args.object;
+const generateClasses = () => {
   const platform = Device.os.toLowerCase();
   let classes = [platform];
 
@@ -29,13 +27,25 @@ const onPageLoad = (args) => {
     Device.model.toLowerCase().replace(/\s/g, "");
   classes.push(deviceName);
 
-  console.log(classes);
+  return classes;
+};
+
+let classes = generateClasses();
+global.platformClass = classes;
+
+const onPageLoad = (args) => {
+  const currentPage = args.object;
+
+  classes = generateClasses();
+  global.platformClass = classes;
 
   if (currentPage) {
     currentPage.className += " " + classes.join(" ");
   }
 
-  global.platformClass = classes;
+  console.log(
+    `[nativescript-platform-css] Injected classes: ${classes} into Page`
+  );
 };
 
 // Setup Events
