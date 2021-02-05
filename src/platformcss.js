@@ -7,7 +7,19 @@ const Screen = require("@nativescript/core/platform").Screen;
 let groupings = [1280, 1024, 800, 600, 540, 480, 400, 360, 320, 240];
 
 const getSize = (size) => {
-  return groupings.find((current) => size >= current);
+  let foundSize = -1;
+  let currentDiff = -1;
+
+  for (let curSize of groupings) {
+    const diff = Math.abs(curSize - size);
+
+    if (currentDiff === -1 || diff <= currentDiff) {
+      currentDiff = diff;
+      foundSize = curSize;
+    }
+  }
+
+  return foundSize;
 };
 const generateClasses = () => {
   const platform = Device.os.toLowerCase();
